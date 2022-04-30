@@ -21,28 +21,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
 class ReactiveApplicationTests {
-
-//	@Autowired
-//	NewsRepository newsRepository;
-
 	@Autowired
 	private ReactiveRedisOperations<String, News> newsOps;
-	/*
-	void test1() {
-		News news1 = new News("결국 그런 거였어", LocalDateTime.of(2022,4,28,23,50));
-		News news2 = new News("대단해요", LocalDateTime.of(2022,4,29,0,5));
-		newsRepository.save(news1).subscribe();
-		newsRepository.save(news2).subscribe();
 
-		List<String> ids = new ArrayList<>();
-		List<News> newsList = newsRepository.findAll().toStream().collect(Collectors.toList());
-		long count = 0l;
-		// block으로 위 subscribe도 여기서 구독가능... non blocking이라~
-		count = newsRepository.count().blockOptional().get();
-		Assert.isTrue(count == 2, "그런건가 안되는 건가");
-		Assert.isTrue(newsList.size() == 2, "그런건가 안되는 건가22");
-	}
-*/
 	@Test
 	public void redisTest(){
 		News news1 = new News("결국 그런 거였어", Timestamp.valueOf(LocalDateTime.of(2022,4,28,23,50)));
@@ -52,6 +33,6 @@ class ReactiveApplicationTests {
 				.flatMap(value -> newsOps.opsForValue().set((String) value[0], (News) value[1])).subscribe();
 
 		News news3 = newsOps.opsForValue().get("1").block();
-		Assert.isTrue(news3.getContent().equals(news1.getContent()), "안돼에에~~");
+		Assert.isTrue(news1.getContent().equals(news3.getContent()), "안돼에에~~");
 	}
 }
