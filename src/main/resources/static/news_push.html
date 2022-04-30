@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <label for="news">보내고 싶은 말 (1 to 8 characters):</label>
+    <input type="text" id="news" name="name" required
+           minlength="1" maxlength="8" size="10">
+    <button id="news_push_button" onclick="news_push()">내용 보내기</button>
+</div>
+<script>
+    function news_push() {
+        let news = document.getElementById('news').value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/news', true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send('{"content":"' + news +'"}');
+    }
+</script>
+</body>
+</html>
